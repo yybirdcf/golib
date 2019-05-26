@@ -1,10 +1,11 @@
 package wait
 
 import (
-	"sync"
 	"context"
-	"time"
 	"math/rand"
+	"sync"
+	"time"
+
 	"../runtime"
 )
 
@@ -51,11 +52,11 @@ func NonSlidingUntil(f func(), period time.Duration, stopCh <-chan struct{}) {
 }
 
 func UntilWithContext(ctx context.Context, f func(ctx context.Context), period time.Duration, stopCh <-chan struct{}) {
-	jitterUntil(func() {f(ctx)}, period, 0.0, true, stopCh)
+	jitterUntil(func() { f(ctx) }, period, 0.0, true, stopCh)
 }
 
 func NonSlidingUntilWithContext(ctx context.Context, f func(ctx context.Context), period time.Duration, stopCh <-chan struct{}) {
-	jitterUntil(func() {f(ctx)}, period, 0.0, false, stopCh)
+	jitterUntil(func() { f(ctx) }, period, 0.0, false, stopCh)
 }
 
 //不稳定可变因子定时周期执行
@@ -65,7 +66,7 @@ func jitterUntil(f func(), period time.Duration, factor float64, sliding bool, s
 
 	for {
 		select {
-		case <- stopCh:
+		case <-stopCh:
 			return
 		default:
 		}
@@ -89,9 +90,9 @@ func jitterUntil(f func(), period time.Duration, factor float64, sliding bool, s
 		}
 
 		select {
-		case <- stopCh:
+		case <-stopCh:
 			return
-		case <- t.C:
+		case <-t.C:
 			timeout = true
 		}
 	}
@@ -103,7 +104,7 @@ func resetOrReuseTimer(t *time.Timer, duration time.Duration, timeout bool) *tim
 	}
 
 	if !t.Stop() && !timeout {
-		<- t.C
+		<-t.C
 	}
 
 	t.Reset(duration)
@@ -115,5 +116,5 @@ func jitter(duration time.Duration, factor float64) time.Duration {
 		factor = 1.0
 	}
 
-	return duration + time.Duration(rand.Float64() * factor * float64(duration))
+	return duration + time.Duration(rand.Float64()*factor*float64(duration))
 }

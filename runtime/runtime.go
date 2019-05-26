@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"runtime"
+
 	"../clog"
 )
 
@@ -9,7 +10,7 @@ var (
 	RealCrash = true
 )
 
-var PanicHandlers = []func(interface{}){}
+var PanicHandlers = []func(interface{}){logPanic}
 
 func HandleCrash(customHandlers ...func(interface{})) {
 	if r := recover(); r != nil {
