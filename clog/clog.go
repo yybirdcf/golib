@@ -1,6 +1,7 @@
 package clog
 
 import (
+	"flag"
 	"sync"
 
 	"github.com/natefinch/lumberjack"
@@ -11,10 +12,13 @@ import (
 var once sync.Once
 var logger *zap.SugaredLogger
 
-func InitLogger(logpath string, loglevel string) {
-	once.Do(func() {
-		logger = initLogger(logpath, loglevel)
-	})
+var (
+	logpath string
+)
+
+func init() {
+	flag.StringVar(&logpath, "log", "/tmp/sync.log", "set log path path")
+	logger = initLogger(logpath, "info")
 }
 
 // logpath 日志文件路径
