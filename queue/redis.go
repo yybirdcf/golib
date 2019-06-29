@@ -1,7 +1,6 @@
 package queue
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/gomodule/redigo/redis"
@@ -10,7 +9,6 @@ import (
 
 type RedisConfig struct {
 	Host     string
-	Port     int
 	Password string
 	Db       int
 	Topic    string
@@ -22,13 +20,12 @@ type RedisQueue struct {
 }
 
 func NewRedisQueue(cfg *RedisConfig) *RedisQueue {
-	srv := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
 	pool := &redis.Pool{
 		MaxIdle:     25,
 		MaxActive:   500,
 		IdleTimeout: time.Duration(time.Second * 360),
 		Dial: func() (redis.Conn, error) {
-			c, err := redis.Dial("tcp", srv)
+			c, err := redis.Dial("tcp", cfg.Host)
 			if err != nil {
 				return nil, err
 			}
