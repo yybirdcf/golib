@@ -14,7 +14,7 @@ type KafkaConfig struct {
 type KafkaQueue struct {
 	producer sarama.SyncProducer
 	consumer sarama.Consumer
-	handlers map[string]func(string, interface{})
+	handlers map[string]func(string, string)
 }
 
 func NewKafkaQueue(cfg *KafkaConfig) *KafkaQueue {
@@ -42,7 +42,7 @@ func NewKafkaQueue(cfg *KafkaConfig) *KafkaQueue {
 	kq := &KafkaQueue{}
 	kq.producer = producer
 	kq.consumer = consumer
-	kq.handlers = make(map[string]func(string, interface{}))
+	kq.handlers = make(map[string]func(string, string))
 
 	return kq
 }
@@ -76,7 +76,7 @@ func (kq *KafkaQueue) Close() {
 	}
 }
 
-func (kq *KafkaQueue) RegisterHandler(name string, handler func(string, interface{})) {
+func (kq *KafkaQueue) RegisterHandler(name string, handler func(string, string)) {
 	kq.handlers[name] = handler
 }
 
@@ -108,7 +108,7 @@ func (kq *KafkaQueue) runHandler(name string) {
 		go func(sarama.PartitionConsumer) {
 			//Messages()该方法返回一个消费消息类型的只读通道，由代理产生
 			for msg := range pc.Messages() {
-				kq.handlers[name](name, msg.Value)
+				kq.handlers[name](name, string(msg.Value))
 			}
 		}(pc)
 	}

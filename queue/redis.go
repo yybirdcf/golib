@@ -15,7 +15,7 @@ type RedisConfig struct {
 
 type RedisQueue struct {
 	pool     *redis.Pool
-	handlers map[string]func(string, interface{})
+	handlers map[string]func(string, string)
 }
 
 func NewRedisQueue(cfg *RedisConfig) *RedisQueue {
@@ -45,7 +45,7 @@ func NewRedisQueue(cfg *RedisConfig) *RedisQueue {
 
 	rq := &RedisQueue{}
 	rq.pool = pool
-	rq.handlers = make(map[string]func(string, interface{}))
+	rq.handlers = make(map[string]func(string, string))
 
 	return rq
 }
@@ -58,7 +58,7 @@ func (rq *RedisQueue) Push(name string, value string) error {
 	return err
 }
 
-func (rq *RedisQueue) RegisterHandler(name string, handler func(string, interface{})) {
+func (rq *RedisQueue) RegisterHandler(name string, handler func(string, string)) {
 	rq.handlers[name] = handler
 }
 
