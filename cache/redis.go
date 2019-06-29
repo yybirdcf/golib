@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"../utils"
 	"github.com/gomodule/redigo/redis"
+	"github.com/yybirdcf/golib/utils"
 )
 
 type RedisConfig struct {

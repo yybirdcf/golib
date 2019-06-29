@@ -3,7 +3,7 @@ package runtime
 import (
 	"runtime"
 
-	"../clog"
+	"github.com/yybirdcf/golib/clog"
 )
 
 var (

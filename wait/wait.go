@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"../runtime"
+	"github.com/yybirdcf/golib/runtime"
 )
 
 var NeverStop <-chan struct{} = make(chan struct{})

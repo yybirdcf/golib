@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"../clog"
+	"github.com/yybirdcf/golib/clog"
 )
 
 type HealthCheck interface {

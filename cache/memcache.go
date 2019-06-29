@@ -3,8 +3,8 @@ package cache
 import (
 	"errors"
 
-	"../utils"
 	"github.com/bradfitz/gomemcache/memcache"
+	"github.com/yybirdcf/golib/utils"
 )
 
 type MemCache struct {

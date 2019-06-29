@@ -3,7 +3,7 @@ package cache
 import (
 	"errors"
 
-	"../utils"
+	"github.com/yybirdcf/golib/utils"
 )
 
 type FileCache struct {
