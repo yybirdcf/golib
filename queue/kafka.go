@@ -9,7 +9,6 @@ import (
 
 type KafkaConfig struct {
 	Addresses []string
-	Topic     string
 }
 
 type KafkaQueue struct {

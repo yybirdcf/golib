@@ -11,7 +11,6 @@ type RedisConfig struct {
 	Host     string
 	Password string
 	Db       int
-	Topic    string
 }
 
 type RedisQueue struct {
